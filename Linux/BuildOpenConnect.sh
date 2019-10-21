@@ -66,4 +66,4 @@ $Make check
 $Make
 $Sudo $Make install && $Sudo $LDConfig
 
-echo "Now use 'Start_Faction_VPN.sh' from Robert"
+echo "Now use 'Start_VPN.sh' from Robert"

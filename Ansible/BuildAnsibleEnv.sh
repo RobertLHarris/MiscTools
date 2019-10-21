@@ -55,6 +55,4 @@ cd $HOME/Git-Repos/ansible-faction/extensions/setup
 ./setup.sh
 ./role_update.sh
 
-echo Downloading the Faction Ansible Repos to $HOME/Git-Repos/ansible-faction
-cd $HOME/Git-Repos
-git clone git@github.com:factioninc/ansible-faction.git
+echo You are now ready to pull your Ansible inventory and code.
