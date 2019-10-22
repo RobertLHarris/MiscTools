@@ -92,6 +92,8 @@ def GetCommandLineArgs(data):
     return( data )
 
 def SetEnvVars(data):
+    # When did our run start.
+    data['dateNow'] = datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ')
     # Set up environmental variables.  This is long, but a bad setting can cause stupidity.
     for Key, EnvVar, default in [ \
             ('USER', 'VPNUser', 'Undefined'), \
@@ -106,7 +108,6 @@ def SetEnvVars(data):
             ('Protocol', 'Protocol', '--protocol=gp'), \
             ('OS', 'OS', '--os=linux-64'), \
         ]:
-        data['dateNow'] = datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ')
         #
         # Since we have different Usernames in different environments, but one VPN username, lets use an OS variable to set it.
         try:
