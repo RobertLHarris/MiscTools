@@ -93,89 +93,28 @@ def GetCommandLineArgs(data):
 
 def SetEnvVars(data):
     # Set up environmental variables.  This is long, but a bad setting can cause stupidity.
-    data['dateNow'] = datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ')
-    #
-    # Since we have different Usernames in different environments, but one VPN username, lets use an OS variable to set it.
-    try:
-        os.environ['VPNUser']
-    except:
-        data['USER'] = 'Undefined'
-    else:
-        data['USER'] = os.environ['VPNUser']
-    # Is there an environmental variable setting the location of the file with VPN password?
-    #  This better be locked down
-    try:
-        os.environ['VPNUserCredss']
-    except:
-        data['PASSWD'] = 'Undefined'
-    else:
-        if os.path.exists( os.environ['VPNUserCredss']):
-            PasswdFile = open( os.environ['VPNUserCredss'], 'r')
-            data['PASSWD'] = PasswdFile.read().rstrip()
-
-    #
-    try:
-        os.environ['HOME']
-    except:
-        data['HOME'] = 'tmp'
-    else:
-        data['HOME'] = os.environ['HOME']
-    #
-    try:
-        os.environ['VPNHost']
-    except:
-        data['VPNHost'] = 'vpn.company.com'
-    else:
-        data['VPNHost'] = os.environ['VPNHost']
-    #
-    try:
-        os.environ['VPNPort']
-    except:
-        data['VPNPort'] = 443
-    else:
-        data['VPNPort'] = os.environ['VPNPort']
-    #
-    try:
-        os.environ['UserAgent']
-    except:
-        data['UserAgent'] = '--useragent=ncsv'
-        data['UserAgent'] = ''
-    else:
-        data['UserAgent'] = os.environ['UserAgent']
-    #
-    try:
-        os.environ['Proxy']
-    except:
-        data['Proxy'] = ''
-    else:
-        data['Proxy'] = os.environ['Proxy']
-    try:
-    #
-        os.environ['Reconnect']
-    except:
-        data['Reconnect'] = '--reconnect-timeout 5'
-    else:
-        data['Reconnect'] = os.environ['Reconnect']
-    try:
-    #
-        os.environ['Portal']
-    except:
-        data['Portal'] = '--usergroup=portal'
-        data['Portal'] = ''
-    else:
-        data['Portal'] = os.environ['Portal']
-    try:
-        os.environ['Protocol']
-    except:
-        data['Protocol'] = '--protocol=gp'
-    else:
-        data['Protocol'] = os.environ['Protocol']
-    try:
-        os.environ['OS']
-    except:
-        data['OS'] = '--os=linux-64'
-    else:
-        data['OS'] = os.environ['OS']
+    for Key, EnvVar, default in [ \
+            ('USER', 'VPNUser', 'Undefined'), \
+            ('PASSWD', 'VPNUserCreds', 'Undefined'), \
+            ('HOME', 'HOME', 'tmp'), \
+            ('VPNHost', 'VPNHost', 'vpn.company.com'), \
+            ('VPNPort', 'VPNPort', '443'), \
+            ('UserAgent', 'UserAgent', ''), \
+            ('Proxy', 'Proxy', ''), \
+            ('Reconnect', 'Reconnect', '--reconnect-timeout 5'), \
+            ('Portal', 'Portal', '--usergroup=portal'), \
+            ('Protocol', 'Protocol', '--protocol=gp'), \
+            ('OS', 'OS', '--os=linux-64'), \
+        ]:
+        data['dateNow'] = datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ')
+        #
+        # Since we have different Usernames in different environments, but one VPN username, lets use an OS variable to set it.
+        try:
+            os.environ[EnvVar]
+        except:
+            data[Key] = default
+        else:
+            data[Key] = os.environ[EnvVar]
 
     return data
 
